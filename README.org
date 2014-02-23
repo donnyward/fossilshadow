@@ -1,0 +1,35 @@
+* Fossil Shadow
+
+  The Python script fossilshadow creates a "shadow" of an existing
+  Fossil repository. The repository shadow is simply a (new) empty
+  repository with an identical project ID and initial commit as an
+  existing repository (the reference repository). This allows you to
+  transfer a small footprint of the repository to another machine, and
+  allow Fossil's sync protocol to take care of the bulk of the data
+  transfer.
+
+  I created this script because when moving a Fossil repository to a
+  new server, I want the server's copy of the repository to be a clean
+  slate. Meaning, no remembered push/pull/sync URLs, no logs of
+  artifacts received (since this server technically hasn't received
+  anything yet) as well as other data.
+
+* Requirements
+
+  - Python
+
+  - Fossil
+
+  The executables for each must be in your PATH.
+
+* Usage
+
+  fossilshadow [repo] [bare-repo-name]
+
+  The repository shadow is created with "fossil init". Parameters
+  compatible with "fossil init" can be specified by prepending them to
+  the repository path in [repo].
+
+* Contact
+
+  (at "donnyjward" (com "gmail"))
