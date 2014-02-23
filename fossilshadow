@@ -30,7 +30,12 @@ def main(argv):
 
 	cmd = 'fossil init --date-override "' + first_commit_date + '" "' + shadow_repo_path + '"'
 	print "cmd: ", cmd
-	os.system(cmd)
+	return_value = os.system(cmd)
+	if return_value != 0:
+		print 'Error: the command'
+		print '\t', cmd
+		print 'returned with exit code', return_value
+		return return_value
 
 	set_project_id(shadow_repo_path)
 
