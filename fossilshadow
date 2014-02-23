@@ -19,7 +19,9 @@ def main(argv):
 	# Get datetime of first commit in the reference repository (todo)
 	first_commit_date = '1970-01-01 00:00:00'
 
-	os.system('fossil init --date-override ' + first_commit_date + ' ' + bare_repo_path)
+	cmd = 'fossil init --date-override "' + first_commit_date + '" "' + bare_repo_path + '"'
+	print "cmd: ", cmd
+	os.system(cmd)
 
 if __name__ == '__main__':
 	main(sys.argv)
