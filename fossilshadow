@@ -8,6 +8,12 @@ The repository shadow is created with "fossil init". Parameters compatible with
 "fossil init" can be specified by prepending them to the repository path in
 [repo].'''
 
+def get_project_id(repo):
+	return 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+
+def set_project_id(repo):
+	pass
+
 def main(argv):
 	if len(argv) < 3:
 		print_usage()
@@ -19,9 +25,14 @@ def main(argv):
 	# Get datetime of first commit in the reference repository (todo)
 	first_commit_date = '1970-01-01 00:00:00'
 
+	# Get the project ID of the reference repository (todo)
+	project_id = get_project_id(repo_path)
+
 	cmd = 'fossil init --date-override "' + first_commit_date + '" "' + bare_repo_path + '"'
 	print "cmd: ", cmd
 	os.system(cmd)
+
+	set_project_id(bare_repo_path)
 
 if __name__ == '__main__':
 	main(sys.argv)
