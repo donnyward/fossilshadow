@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import os
+import sqlite3
 import sys
 
 def print_usage():
@@ -14,8 +15,15 @@ def get_first_commit_date(repo):
 def get_project_id(repo):
 	return 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
 
-def set_project_id(repo):
-	pass
+def set_project_id(repo, project_code):
+	db = sqlite3.connect(repo)
+	cursor = db.cursor()
+	cursor.execute("""
+		UPDATE config SET value = ?
+		WHERE name = 'project-code';
+		""", (project_code,))
+	db.commit()
+	db.close()
 
 def main(argv):
 	if len(argv) < 3:
@@ -40,7 +48,7 @@ def main(argv):
 		print 'returned with exit code', return_value
 		return return_value
 
-	set_project_id(shadow_repo_path)
+	set_project_id(shadow_repo_path, project_id)
 
 if __name__ == '__main__':
 	main(sys.argv)
