@@ -13,7 +13,17 @@ def get_first_commit_date(repo):
 	return '1970-01-01 00:00:00'
 
 def get_project_code(repo):
-	return 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+	db = sqlite3.connect(repo)
+	cursor = db.cursor()
+	cursor.execute("""
+		SELECT value FROM config
+		WHERE name = 'project-code';
+		""")
+	project_tuple = cursor.fetchone()
+	project_code = project_tuple[0]
+	print 'project_code:', project_code
+	db.close()
+	return project_code
 
 def set_project_code(repo, project_code):
 	db = sqlite3.connect(repo)
@@ -36,7 +46,6 @@ def main(argv):
 	# Get datetime of first commit in the reference repository (todo)
 	first_commit_date = get_first_commit_date(repo_path)
 
-	# Get the project code of the reference repository (todo)
 	project_code = get_project_code(repo_path)
 
 	cmd = 'fossil init --date-override "' + first_commit_date + '" "' + shadow_repo_path + '"'
