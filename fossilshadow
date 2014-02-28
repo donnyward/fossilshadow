@@ -21,7 +21,7 @@ def get_first_commit_date(repo):
 		""")
 	event_tuple = cursor.fetchone()
 	julian_date_time = event_tuple[0]
-	return julian_date_time
+	return julian_date_to_iso_8061(julian_date_time)
 
 def get_project_code(repo):
 	db = sqlite3.connect(repo)
@@ -96,7 +96,6 @@ def main(argv):
 	shadow_repo_path = argv[2]
 
 	first_commit_date = get_first_commit_date(repo_path)
-
 	project_code = get_project_code(repo_path)
 
 	cmd = 'fossil init --date-override "' + first_commit_date + '" "' + shadow_repo_path + '"'
