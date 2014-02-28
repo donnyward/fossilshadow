@@ -92,13 +92,20 @@ def main(argv):
 		print_usage()
 		sys.exit(1)
 
-	repo_path = argv[1]
-	shadow_repo_path = argv[2]
+	# Extract last 2 arguments as repo paths
+	repo_path = argv[len(argv) - 2]
+	shadow_repo_path = argv[len(argv) - 1]
+	argv = argv[1:-2]
 
 	first_commit_date = get_first_commit_date(repo_path)
 	project_code = get_project_code(repo_path)
 
-	cmd = 'fossil init --date-override "' + first_commit_date + '" "' + shadow_repo_path + '"'
+	cmd = 'fossil init --date-override "' + first_commit_date + '" '
+
+	for arg in argv:
+		cmd = cmd + arg + ' '
+
+	cmd = cmd + '"' + shadow_repo_path + '"'
 	print "cmd: ", cmd
 	return_value = os.system(cmd)
 	if return_value != 0:
