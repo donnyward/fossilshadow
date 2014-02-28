@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+import datetime
+import math
 import os
 import sqlite3
 import sys
@@ -33,6 +35,47 @@ def get_project_code(repo):
 	print 'project_code:', project_code
 	db.close()
 	return project_code
+
+def julian_date_to_iso_8061(julian_date):
+	julian_date = julian_date + 0.5
+
+	F, I = math.modf(julian_date)
+	I = int(I)
+
+	A = math.trunc((I - 1867216.25)/36524.25)
+
+	if I > 2299160:
+		B = I + 1 + A - math.trunc(A / 4.)
+	else:
+		B = I
+
+	C = B + 1524
+	D = math.trunc((C - 122.1) / 365.25)
+	E = math.trunc(365.25 * D)
+	G = math.trunc((C - E) / 30.6001)
+
+	day = C - E + F - math.trunc(30.6001 * G)
+
+	if G < 13.5:
+		month = G - 1
+	else:
+		month = G - 13
+
+	if month > 2.5:
+		year = D - 4716
+	else:
+		year = D - 4715
+
+	hour_float = 24 * (day - int(day))
+	minute_float = 60 * (hour_float - int(hour_float))
+	second_float = 60 * (minute_float - int(minute_float))
+
+	return datetime.datetime(year,
+		month,
+		int(day),
+		int(hour_float),
+		int(minute_float),
+		int(second_float)).isoformat(' ')
 
 def set_project_code(repo, project_code):
 	db = sqlite3.connect(repo)
