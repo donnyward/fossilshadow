@@ -24,7 +24,6 @@ to a configuration setting read from the repository.
 		WHERE name = 'project-name'
 		OR name = 'project-description'
 		OR name = 'index-page'
-		AND comment = 'initial empty check-in';
 		""")
 	tuples = cursor.fetchall()
 	db.close()
