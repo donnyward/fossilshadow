@@ -171,6 +171,7 @@ def main(argv):
 
 	set_project_code(shadow_repo_path, project_code)
 	set_config(shadow_repo_path, get_config(repo_path))
+	set_first_commit_hash(shadow_repo_path, get_first_commit_hash(repo_path))
 
 if __name__ == '__main__':
 	main(sys.argv)
