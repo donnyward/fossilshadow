@@ -149,6 +149,7 @@ def main(argv):
 		return return_value
 
 	set_project_code(shadow_repo_path, project_code)
+	set_config(shadow_repo_path, get_config(repo_path))
 
 if __name__ == '__main__':
 	main(sys.argv)
