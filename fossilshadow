@@ -111,6 +111,16 @@ the repository.
 	db.commit()
 	db.close()
 
+def set_first_commit_hash(repo, hashcode):
+	db = sqlite3.connect(repo)
+	cursor = db.cursor()
+	cursor.execute("""
+		UPDATE blob SET uuid = ?
+		WHERE rid = 1;
+		""", (hashcode,))
+	db.commit()
+	db.close()
+
 def set_project_code(repo, project_code):
 	db = sqlite3.connect(repo)
 	cursor = db.cursor()
