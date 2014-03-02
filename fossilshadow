@@ -42,6 +42,17 @@ def get_first_commit_date(repo):
 	db.close()
 	return julian_date_to_iso_8061(julian_date_time)
 
+def get_first_commit_hash(repo):
+	db = sqlite3.connect(repo)
+	cursor = db.cursor()
+	cursor.execute("""
+		SELECT uuid FROM blob
+		WHERE rid = 1;
+		""")
+	hashcode = cursor.fetchone()[0]
+	db.close()
+	return hashcode
+
 def get_project_code(repo):
 	db = sqlite3.connect(repo)
 	cursor = db.cursor()
