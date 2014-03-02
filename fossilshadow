@@ -96,6 +96,21 @@ def julian_date_to_iso_8061(julian_date):
 		int(minute_float),
 		int(second_float)).isoformat(' ')
 
+def set_config(repo, configs):
+	"""
+Insert tuples into the 'config' table of a repository. The argument 'configs'
+should be a list of tuples, where each tuple contains data to be inserted into
+the repository.
+	"""
+	db = sqlite3.connect(repo)
+	cursor = db.cursor()
+	cursor.executemany("""
+		INSERT into config(name, value, mtime)
+		VALUES(?, ?, ?)
+		""", configs)
+	db.commit()
+	db.close()
+
 def set_project_code(repo, project_code):
 	db = sqlite3.connect(repo)
 	cursor = db.cursor()
