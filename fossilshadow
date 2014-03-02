@@ -11,6 +11,25 @@ The repository shadow is created with "fossil init". Parameters compatible with
 "fossil init" can be specified by prepending them to the repository path in
 [repo].'''
 
+def get_config(repo):
+	"""
+Searches a repository's 'config' table for specific configuration settings, and
+if they exist, return a list of tuples, where each tuple contains corresponds
+to a configuration setting read from the repository.
+	"""
+	db = sqlite3.connect(repo)
+	cursor = db.cursor()
+	cursor.execute("""
+		SELECT * FROM config
+		WHERE name = 'project-name'
+		OR name = 'project-description'
+		OR name = 'index-page'
+		AND comment = 'initial empty check-in';
+		""")
+	tuples = cursor.fetchall()
+	db.close()
+	return tuples
+
 def get_first_commit_date(repo):
 	db = sqlite3.connect(repo)
 	cursor = db.cursor()
